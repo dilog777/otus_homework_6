@@ -1,8 +1,8 @@
 file(GLOB_RECURSE SRC *.h *.hpp *.cpp)
 
-add_library(helloworld_lib ${SRC})
+add_library(matrix_lib ${SRC})
 
-target_include_directories(helloworld_lib PRIVATE
+target_include_directories(matrix_lib PRIVATE
 	"${CMAKE_CURRENT_BINARY_DIR}"
 )
 
