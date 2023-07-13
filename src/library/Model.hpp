@@ -14,16 +14,14 @@ template<class Type>
 class Model : public std::enable_shared_from_this<Model<Type>>
 {
 public:
-	using ModelIndex = ModelIndex<Model, Type>;
-	
 	Model(const Type &defaultValue);
 	
 	int size() const;
 
-	ModelIndex operator[](int index);
+	ModelIndex<Model, Type> operator[](int index);
 
-	Type value(const ModelIndex &index) const;
-	void setValue(const ModelIndex &index, const Type &value);
+	Type value(const ModelIndex<Model, Type> &index) const;
+	void setValue(const ModelIndex<Model, Type> &index, const Type &value);
 
 private:
 	const Type _defaultValue;
@@ -49,16 +47,16 @@ int Model<Type>::size() const
 
 
 template<class Type>
-typename Model<Type>::ModelIndex Model<Type>::operator[](int index)
+ModelIndex<Model<Type>, Type> Model<Type>::operator[](int index)
 {
-	auto modelIndex = ModelIndex(shared_from_this());
+	auto modelIndex = ModelIndex<Model, Type>(shared_from_this());
 	return modelIndex[index];
 }
 
 
 
 template<class Type>
-Type Model<Type>::value(const ModelIndex &index) const
+Type Model<Type>::value(const ModelIndex<Model, Type> &index) const
 {
 	auto &key = index.key();
 	if (_values.count(key))
@@ -70,7 +68,7 @@ Type Model<Type>::value(const ModelIndex &index) const
 
 
 template<class Type>
-void Model<Type>::setValue(const ModelIndex &index, const Type &value)
+void Model<Type>::setValue(const ModelIndex<Model, Type> &index, const Type &value)
 {
 	auto &key = index.key();
 	if (value != _defaultValue)

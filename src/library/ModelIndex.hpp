@@ -39,7 +39,7 @@ ModelIndex<Model, Type>::ModelIndex(const std::shared_ptr<Model> &model)
 
 
 template<class Model, class Type>
-typename ModelIndex<Model, Type> ModelIndex<Model, Type>::operator[](int index) const
+ModelIndex<Model, Type> ModelIndex<Model, Type>::operator[](int index) const
 {
 	ModelIndex subIndex(*this);
 	subIndex._key.push_back(index);
@@ -49,7 +49,7 @@ typename ModelIndex<Model, Type> ModelIndex<Model, Type>::operator[](int index) 
 
 
 template<class Model, class Type>
-typename ModelIndex<Model, Type> &ModelIndex<Model, Type>::operator=(const Type &value)
+ModelIndex<Model, Type> &ModelIndex<Model, Type>::operator=(const Type &value)
 {
 	if (auto model = _model.lock())
 		model->setValue(*this, value);
