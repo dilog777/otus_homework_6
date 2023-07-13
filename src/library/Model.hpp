@@ -49,7 +49,7 @@ int Model<Type>::size() const
 template<class Type>
 ModelIndex<Model<Type>, Type> Model<Type>::operator[](int index)
 {
-	auto modelIndex = ModelIndex<Model, Type>(shared_from_this());
+	auto modelIndex = ModelIndex<Model, Type>(this->shared_from_this());
 	return modelIndex[index];
 }
 
