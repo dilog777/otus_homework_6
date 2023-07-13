@@ -17,6 +17,17 @@ int main (int, char **)
 		matrix[100][100] = 314;
 		assert(matrix[100][100] == 314);
 		assert(matrix.size() == 1);
+
+		for (const auto &c : matrix)
+		{
+			int x{0};
+			int y{0};
+			int v{0};
+			ModelKey k;
+			std::tie(k, v) = c;
+			//std::tie(x, y, v) = c;
+			std::cout << x << y << v << std::endl;
+		}
 	}
 
 	{

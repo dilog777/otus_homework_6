@@ -23,6 +23,10 @@ public:
 	Type value(const ModelIndex<Model, Type> &index) const;
 	void setValue(const ModelIndex<Model, Type> &index, const Type &value);
 
+	using iterator = typename std::map<ModelKey, Type>::iterator;
+	iterator begin();
+	iterator end();
+
 private:
 	const Type _defaultValue;
 	std::map<ModelKey, Type> _values;
@@ -75,4 +79,20 @@ void Model<Type>::setValue(const ModelIndex<Model, Type> &index, const Type &val
 		_values[key] = value;
 	else
 		_values.erase(key);
+}
+
+
+
+template<class Type>
+typename Model<Type>::iterator Model<Type>::begin()
+{
+	return _values.begin();
+}
+
+
+
+template<class Type>
+typename Model<Type>::iterator Model<Type>::end()
+{
+	return _values.end();
 }

@@ -14,6 +14,10 @@ public:
 
 	ModelIndex<Model<Type>, Type> operator[](int index);
 
+	using iterator = typename Model<Type>::iterator;
+	iterator begin();
+	iterator end();
+
 private:
 	std::shared_ptr<Model<Type>> _model;
 };
@@ -40,4 +44,20 @@ template<class Type, Type defaultValue>
 ModelIndex<Model<Type>, Type> Matrix<Type, defaultValue>::operator[](int index)
 {
 	return _model->operator[](index);
+}
+
+
+
+template<class Type, Type defaultValue>
+typename Matrix<Type, defaultValue>::iterator Matrix<Type, defaultValue>::begin()
+{
+	return _model->begin();
+}
+
+
+
+template<class Type, Type defaultValue>
+typename Matrix<Type, defaultValue>::iterator Matrix<Type, defaultValue>::end()
+{
+	return _model->end();
 }
