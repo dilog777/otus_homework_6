@@ -1,11 +1,8 @@
 #pragma once
 
 #include <list>
-#include <memory>
 
 #include "Model.hpp"
-
-using ModelKey = std::list<int>;
 
 
 
@@ -13,25 +10,21 @@ template<class Model, class Type>
 class ModelIndex
 {
 public:
-	ModelIndex(const std::shared_ptr<Model> &model);
-	virtual ~ModelIndex() = default;
+	ModelIndex(Model *model);
 
 	ModelIndex operator[](int index) const;
 	ModelIndex &operator=(const Type &value);
 	operator Type() const;
 
-	const ModelKey &key() const;
-	Type value(const ModelIndex &index) const;
-
 private:
-	std::weak_ptr<Model> _model;
-	ModelKey _key;
+	Model *_model { nullptr };
+	typename Model::ModelKey _key;
 };
 
 
 
 template<class Model, class Type>
-ModelIndex<Model, Type>::ModelIndex(const std::shared_ptr<Model> &model)
+ModelIndex<Model, Type>::ModelIndex(Model *model)
 	: _model { model }
 {
 }
@@ -51,9 +44,7 @@ ModelIndex<Model, Type> ModelIndex<Model, Type>::operator[](int index) const
 template<class Model, class Type>
 ModelIndex<Model, Type> &ModelIndex<Model, Type>::operator=(const Type &value)
 {
-	if (auto model = _model.lock())
-		model->setValue(*this, value);
-
+	_model->setValue(_key, value);
 	return *this;
 }
 
@@ -62,27 +53,5 @@ ModelIndex<Model, Type> &ModelIndex<Model, Type>::operator=(const Type &value)
 template<class Model, class Type>
 ModelIndex<Model, Type>::operator Type() const
 {
-	if (auto model = _model.lock())
-		return model->value(*this);
-
-	return {};
-}
-
-
-
-template<class Model, class Type>
-const ModelKey &ModelIndex<Model, Type>::key() const
-{
-	return _key;
-}
-
-
-
-template<class Model, class Type>
-Type ModelIndex<Model, Type>::value(const ModelIndex &index) const
-{
-	if (auto model = _model.lock())
-		return model->value(*this);
-
-	return {};
+	return _model->value(_key);
 }

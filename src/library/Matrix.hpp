@@ -1,6 +1,9 @@
 #pragma once
 
+#include <memory>
+
 #include "Model.hpp"
+#include "ModelIndex.hpp"
 
 
 
@@ -43,7 +46,8 @@ int Matrix<Type, defaultValue>::size() const
 template<class Type, Type defaultValue>
 ModelIndex<Model<Type>, Type> Matrix<Type, defaultValue>::operator[](int index)
 {
-	return _model->operator[](index);
+	auto modelIndex = ModelIndex<Model<Type>, Type>(_model.get());
+	return modelIndex[index];
 }
 
 

@@ -23,7 +23,8 @@ int main (int, char **)
 			int x{0};
 			int y{0};
 			int v{0};
-			ModelKey k;
+			//ModelKey k;
+			std::list<int> k;
 			std::tie(k, v) = c;
 			//std::tie(x, y, v) = c;
 			std::cout << x << y << v << std::endl;
