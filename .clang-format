@@ -97,3 +97,10 @@ IncludeCategories:
 
 StatementMacros:
   - Q_UNUSED
+
+
+AlwaysBreakTemplateDeclarations: Yes
+SpaceAfterTemplateKeyword: false
+
+
+
