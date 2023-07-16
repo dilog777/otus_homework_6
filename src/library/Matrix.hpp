@@ -11,25 +11,28 @@ template<class Type, Type defaultValue>
 class Matrix
 {
 public:
+	using Model = Model<Type, 2>;
+	using ModelIndex = ModelIndex<Model, Type>;
+	using iterator = typename Model::iterator;
+	
 	Matrix();
 
 	int size() const;
 
-	ModelIndex<Model<Type>, Type> operator[](int index);
+	ModelIndex operator[](int index);
 
-	using iterator = typename Model<Type>::iterator;
 	iterator begin();
 	iterator end();
 
 private:
-	std::shared_ptr<Model<Type>> _model;
+	std::shared_ptr<Model> _model;
 };
 
 
 
 template<class Type, Type defaultValue>
 Matrix<Type, defaultValue>::Matrix()
-	: _model { new Model<Type>(defaultValue) }
+	: _model { new Model(defaultValue) }
 {
 }
 
@@ -44,9 +47,9 @@ int Matrix<Type, defaultValue>::size() const
 
 
 template<class Type, Type defaultValue>
-ModelIndex<Model<Type>, Type> Matrix<Type, defaultValue>::operator[](int index)
+typename Matrix<Type, defaultValue>::ModelIndex Matrix<Type, defaultValue>::operator[](int index)
 {
-	auto modelIndex = ModelIndex<Model<Type>, Type>(_model.get());
+	ModelIndex modelIndex { _model.get() };
 	return modelIndex[index];
 }
 

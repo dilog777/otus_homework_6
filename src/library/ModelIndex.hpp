@@ -1,6 +1,6 @@
 #pragma once
 
-#include <list>
+#include <cassert>
 
 #include "Model.hpp"
 
@@ -18,7 +18,8 @@ public:
 
 private:
 	Model *_model { nullptr };
-	typename Model::ModelKey _key;
+	typename Model::Key _key {};
+	int _dimIndex { 0 };
 };
 
 
@@ -34,8 +35,10 @@ ModelIndex<Model, Type>::ModelIndex(Model *model)
 template<class Model, class Type>
 ModelIndex<Model, Type> ModelIndex<Model, Type>::operator[](int index) const
 {
+	assert(_dimIndex < Model::Dim);
+	
 	ModelIndex subIndex(*this);
-	subIndex._key.push_back(index);
+	subIndex._key[subIndex._dimIndex++] = index;
 	return subIndex;
 }
 
@@ -44,6 +47,8 @@ ModelIndex<Model, Type> ModelIndex<Model, Type>::operator[](int index) const
 template<class Model, class Type>
 ModelIndex<Model, Type> &ModelIndex<Model, Type>::operator=(const Type &value)
 {
+	assert(_dimIndex == Model::Dim);
+
 	_model->setValue(_key, value);
 	return *this;
 }
@@ -53,5 +58,7 @@ ModelIndex<Model, Type> &ModelIndex<Model, Type>::operator=(const Type &value)
 template<class Model, class Type>
 ModelIndex<Model, Type>::operator Type() const
 {
+	assert(_dimIndex == Model::Dim);
+
 	return _model->value(_key);
 }

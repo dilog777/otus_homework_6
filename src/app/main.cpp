@@ -20,14 +20,9 @@ int main (int, char **)
 
 		for (const auto &c : matrix)
 		{
-			int x{0};
-			int y{0};
-			int v{0};
-			//ModelKey k;
-			std::list<int> k;
-			std::tie(k, v) = c;
-			//std::tie(x, y, v) = c;
-			std::cout << x << y << v << std::endl;
+			auto &[key, value] = c;
+			auto &[row, column] = key;
+			std::cout << row << column << value << std::endl;
 		}
 	}
 

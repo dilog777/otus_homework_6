@@ -1,51 +1,53 @@
 #pragma once
 
-#include <list>
+#include <array>
 #include <map>
 
 
 
-template<class Type>
+template<class Type, int dim>
 class Model
 {
 public:
+	using Key = std::array<int, dim>;
+	using iterator = typename std::map<Key, Type>::iterator;
+	static const int Dim = dim;
+
 	Model(const Type &defaultValue);
 	
 	int size() const;
 
-	using ModelKey = std::list<int>;
-	Type value(const ModelKey &key) const;
-	void setValue(const ModelKey &key, const Type &value);
+	Type value(const Key &key) const;
+	void setValue(const Key &key, const Type &value);
 
-	using iterator = typename std::map<ModelKey, Type>::iterator;
 	iterator begin();
 	iterator end();
 
 private:
 	const Type _defaultValue;
-	std::map<ModelKey, Type> _values;
+	std::map<Key, Type> _values;
 };
 
 
 
-template<class Type>
-Model<Type>::Model(const Type &defaultValue)
+template<class Type, int dim>
+Model<Type, dim>::Model(const Type &defaultValue)
 	: _defaultValue { defaultValue }
 {
 }
 
 
 
-template<class Type>
-int Model<Type>::size() const
+template<class Type, int dim>
+int Model<Type, dim>::size() const
 {
 	return _values.size();
 }
 
 
 
-template<class Type>
-Type Model<Type>::value(const ModelKey &key) const
+template<class Type, int dim>
+Type Model<Type, dim>::value(const Key &key) const
 {
 	if (_values.count(key))
 		return _values.at(key);
@@ -55,8 +57,8 @@ Type Model<Type>::value(const ModelKey &key) const
 
 
 
-template<class Type>
-void Model<Type>::setValue(const ModelKey &key, const Type &value)
+template<class Type, int dim>
+void Model<Type, dim>::setValue(const Key &key, const Type &value)
 {
 	if (value != _defaultValue)
 		_values[key] = value;
@@ -66,16 +68,16 @@ void Model<Type>::setValue(const ModelKey &key, const Type &value)
 
 
 
-template<class Type>
-typename Model<Type>::iterator Model<Type>::begin()
+template<class Type, int dim>
+typename Model<Type, dim>::iterator Model<Type, dim>::begin()
 {
 	return _values.begin();
 }
 
 
 
-template<class Type>
-typename Model<Type>::iterator Model<Type>::end()
+template<class Type, int dim>
+typename Model<Type, dim>::iterator Model<Type, dim>::end()
 {
 	return _values.end();
 }
