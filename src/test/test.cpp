@@ -17,10 +17,3 @@ TEST(test_google_version, test_matrix)
 	EXPECT_TRUE(matrix[100][100] == 314);
 	EXPECT_TRUE(matrix.size() == 1);
 }
-
-
-
-int main(int argc, char** argv) {
-	testing::InitGoogleTest(&argc, argv);
-	return RUN_ALL_TESTS();
-}
