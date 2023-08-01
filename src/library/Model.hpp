@@ -1,7 +1,9 @@
 #pragma once
 
 #include <array>
-#include <map>
+#include <unordered_map>
+
+#include "ArrayHash.hpp"
 
 
 
@@ -10,12 +12,13 @@ class Model
 {
 public:
 	using Key = std::array<int, dim>;
-	using iterator = typename std::map<Key, Type>::iterator;
+	using Map = std::unordered_map<Key, Type, ArrayHash<dim>>;
+	using iterator = typename Map::iterator;
 	static const int Dim = dim;
 
 	Model(const Type &defaultValue);
 	
-	int size() const;
+	size_t size() const;
 
 	Type value(const Key &key) const;
 	void setValue(const Key &key, const Type &value);
@@ -25,7 +28,7 @@ public:
 
 private:
 	const Type _defaultValue;
-	std::map<Key, Type> _values;
+	Map _values;
 };
 
 
@@ -39,7 +42,7 @@ Model<Type, dim>::Model(const Type &defaultValue)
 
 
 template<class Type, int dim>
-int Model<Type, dim>::size() const
+size_t Model<Type, dim>::size() const
 {
 	return _values.size();
 }
