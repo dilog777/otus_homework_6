@@ -15,7 +15,7 @@ public:
 	
 	Matrix();
 
-	size_t size() const;
+	std::size_t size() const;
 
 	ModelIndexT operator[](int index);
 
@@ -36,7 +36,7 @@ Matrix<Type, defaultValue>::Matrix()
 
 
 template<class Type, Type defaultValue>
-size_t Matrix<Type, defaultValue>::size() const
+std::size_t Matrix<Type, defaultValue>::size() const
 {
 	return _model.size();
 }

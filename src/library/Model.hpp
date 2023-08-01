@@ -18,7 +18,7 @@ public:
 
 	Model(const Type &defaultValue);
 	
-	size_t size() const;
+	std::size_t size() const;
 
 	Type value(const Key &key) const;
 	void setValue(const Key &key, const Type &value);
@@ -42,7 +42,7 @@ Model<Type, dim>::Model(const Type &defaultValue)
 
 
 template<class Type, int dim>
-size_t Model<Type, dim>::size() const
+std::size_t Model<Type, dim>::size() const
 {
 	return _values.size();
 }
